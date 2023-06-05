@@ -13,9 +13,24 @@ $gsent->execute();
 #se crea una array con los valores de la base de datos
 $resultado = $gsent->fetchAll();
 
+////AGREGAR////
+
+if ($_POST) {
+    $color =  $_POST["Color"];
+    $descripcion = $_POST["Descripcion"];
+
+    $sql_agregar = "INSERT INTO colores (color, descripcion) values (?,?)";
+    $sentencia_agregar = $pdo->prepare($sql_agregar);
+    $sentencia_agregar->execute(array($color,$descripcion));
+
+    header("location:index.php");
+
+}
+
+
 
 #Mostramos los valores del array
-var_dump($resultado)
+//var_dump($resultado)
 ?> 
 
 <!doctype html>
@@ -32,6 +47,7 @@ var_dump($resultado)
     <div class="container mt-5">
         <div class="row">
 
+        <!-- Consumir la base de datos -->
             <div class="col-md-6">
 
                 <?php foreach($resultado as $dato):?>
@@ -44,6 +60,17 @@ var_dump($resultado)
 
                 <?php endforeach?>
 
+            </div>
+
+            <!-- Agregar contenido a la base de datos -->
+
+            <div class="col-md-6">
+                <h2>Agregar elementos</h2>
+                <form method="POST">
+                    <input type="text" class="form-control" name="Color">
+                    <input type="text" class="form-control mt-3" name="Descripcion">
+                    <button class="btn btn-primary mt-3">Agregar</button>
+                </form>
             </div>
 
         </div>
