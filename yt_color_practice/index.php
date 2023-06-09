@@ -63,7 +63,6 @@ if ($_POST) {
             </div>
 
             <!-- Agregar contenido a la base de datos -->
-
             <div class="col-md-6">
                 <h2>Agregar elementos</h2>
                 <form method="POST">
@@ -72,6 +71,8 @@ if ($_POST) {
                     <button class="btn btn-primary mt-3">Agregar</button>
                 </form>
             </div>
+
+            
 
         </div>
     </div>
