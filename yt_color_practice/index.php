@@ -16,11 +16,16 @@ $resultado = $gsent->fetchAll();
 ////AGREGAR////
 
 if ($_POST) {
-    $color =  $_POST["Color"];
-    $descripcion = $_POST["Descripcion"];
+    $color =  $_POST["color"];
+    $descripcion = $_POST["descripcion"];
     $sql_agregar = "INSERT INTO colores (color, descripcion) values (?,?)";
     $sentencia_agregar = $pdo->prepare($sql_agregar);
     $sentencia_agregar->execute(array($color,$descripcion));
+
+    //cerramos conexion base de datos y sentencia
+    $sentencia_agregar = null;
+    $pdo = null;
+
 
     header("location:index.php"); #Redirecciona al index.php 
 
@@ -90,8 +95,8 @@ if ($_GET){
             <?php if(!$_GET): ?> <!--#Detecta si no hay un elemento get y MOSTRARA ESTO, SI HAY METODO GET NO LO MOSTRARA-->
                 <h2>Agregar elementos</h2>
                 <form method="POST">
-                    <input type="text" class="form-control" name="color">
-                    <input type="text" class="form-control mt-3" name="descripcion">
+                    <input type="text" class="form-control" name="Color">
+                    <input type="text" class="form-control mt-3" name="Descripcion">
                     <button class="btn btn-primary mt-3">Agregar</button>
                 </form>
             <?php endif?>
@@ -120,3 +125,10 @@ if ($_GET){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<?php 
+
+//cerramos conexion base de datos y sentencia
+$pdo = null;
+$gsent = null;
+?>
