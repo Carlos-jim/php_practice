@@ -10,6 +10,7 @@ $_SESSION["admin"] = $login; //Esto es un array con administradores, invitados, 
 
 if( isset($_SESSION["admin"])){
     //Muestra si el usuario tiene iniciado sesion
+    header("location:index.php");
 }
 
 
