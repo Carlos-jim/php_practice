@@ -1,17 +1,19 @@
 <?php
 
-echo 'editar.php?id=1&color=success&descripcion=este es un color verde';
-echo "<br>";
+/*echo 'editar.php?id=1&color=success&descripcion=este es un color verde';
+echo "<br>";*/
 
 $id = $_GET["id"];  #obtenemos los datos y los almacenamos en una variable
 $color = $_GET["color"];
 $descripcion = $_GET["descripcion"];
 
-echo $id;
+/*echo $id;
 echo "<br>";
 echo $color;
 echo "<br>";
-echo $descripcion;
+echo $descripcion;*/
+
+header("location:index.php"); 
 
 include_once "conexion.php"; #Llamamos a la conexion
 

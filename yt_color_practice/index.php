@@ -17,16 +17,31 @@ $resultado = $gsent->fetchAll();
 
 if ($_POST) {
     $color =  $_POST["Color"];
-    $descripcion = $_POST["Descripcion"];
-
+    $descripcion = $_POST["Descripcion"]
     $sql_agregar = "INSERT INTO colores (color, descripcion) values (?,?)";
     $sentencia_agregar = $pdo->prepare($sql_agregar);
     $sentencia_agregar->execute(array($color,$descripcion));
 
-    header("location:index.php");
+    header("location:index.php"); #Redirecciona al index.php 
 
 }
 
+#Detectar metodo get (editar)
+if ($_GET){
+
+    #Capturamos los datos
+    $id = $_GET["id"];
+
+    #Toma el valor solicitado
+    $sql_unico = "SELECT * FROM colores WHERE id=?";
+
+    #conecta con la base de datos
+    $gsent_unico = $pdo->prepare($sql_unico);
+    $gsent_unico->execute();
+
+    #se crea una array con los valores de la base de datos
+    $resultad_unico = $gsent_unico->fetchAll();
+}
 
 
 #Mostramos los valores del array
@@ -39,10 +54,11 @@ if ($_POST) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
+    <script src="https://kit.fontawesome.com/714e9fea28.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Hello, world!</h1>
+
 
     <div class="container mt-5">
         <div class="row">
@@ -56,20 +72,35 @@ if ($_POST) {
                 <div class="alert alert-<?php echo $dato["color"]?>" role="alert">
                     <?php echo $dato["color"]?>
                     <?php echo "- ".$dato["descripcion"]?>
+
+                    <a href="index.php?id= <?php echo $dato["id"]?>" class="float-right"><i class="fa-regular fa-pen-to-square" ></i></a>
                 </div>
 
                 <?php endforeach?>
 
             </div>
 
-            <!-- Agregar contenido a la base de datos -->
+            <!-- Agregar, editar contenido a la base de datos -->
             <div class="col-md-6">
+
+            <?php if(!$_GET): ?> <!--#Detecta si no hay un elemento get y MOSTRARA ESTO, SI HAY METODO GET NO LO MOSTRARA-->
                 <h2>Agregar elementos</h2>
                 <form method="POST">
                     <input type="text" class="form-control" name="Color">
                     <input type="text" class="form-control mt-3" name="Descripcion">
                     <button class="btn btn-primary mt-3">Agregar</button>
                 </form>
+            <?php endif?>
+
+                <?php if($_GET): ?> <!--#Detecta si hay un elemento get y MOSTRARA ESTO, SI  no HAY  METODO GET NO LO MOSTRARA-->
+                <h2>Editar elementos</h2>
+                <form method="GET" action="editar.php">
+                    <input type="text" class="form-control" name="Color">
+                    <input type="text" class="form-control mt-3" name="Descripcion">
+                    <button class="btn btn-primary mt-3">Agregar</button>
+                </form>
+                
+                <?php endif?>
             </div>
 
             
