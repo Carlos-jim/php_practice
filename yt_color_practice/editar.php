@@ -13,7 +13,6 @@ echo $color;
 echo "<br>";
 echo $descripcion;*/
 
-header("location:index.php"); 
 
 include_once "conexion.php"; #Llamamos a la conexion
 
@@ -24,3 +23,5 @@ $sql_editar = "UPDATE colores SET color=?, descripcion=? WHERE id=?";
 $sentencia_editar = $pdo->prepare($sql_editar);
 #Ejecutamos
 $sentencia_editar->execute(array($color, $descripcion, $id));
+
+header("location:index.php"); 

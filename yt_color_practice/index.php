@@ -17,7 +17,7 @@ $resultado = $gsent->fetchAll();
 
 if ($_POST) {
     $color =  $_POST["Color"];
-    $descripcion = $_POST["Descripcion"]
+    $descripcion = $_POST["Descripcion"];
     $sql_agregar = "INSERT INTO colores (color, descripcion) values (?,?)";
     $sentencia_agregar = $pdo->prepare($sql_agregar);
     $sentencia_agregar->execute(array($color,$descripcion));
@@ -37,15 +37,17 @@ if ($_GET){
 
     #conecta con la base de datos
     $gsent_unico = $pdo->prepare($sql_unico);
-    $gsent_unico->execute();
+    
+    #Ejecuta solo al id que se solicito
+    $gsent_unico->execute(array($id));
 
     #se crea una array con los valores de la base de datos
-    $resultad_unico = $gsent_unico->fetchAll();
+    $resultado_unico = $gsent_unico->fetch();
 }
 
 
 #Mostramos los valores del array
-//var_dump($resultado)
+//var_dump($resultado_unico);
 ?> 
 
 <!doctype html>
@@ -73,7 +75,9 @@ if ($_GET){
                     <?php echo $dato["color"]?>
                     <?php echo "- ".$dato["descripcion"]?>
 
-                    <a href="index.php?id= <?php echo $dato["id"]?>" class="float-right"><i class="fa-regular fa-pen-to-square" ></i></a>
+                    <a href="eliminar.php?id=<?php echo $dato["id"]?>" class="float-right ml-6" ><i class="fa-solid fa-trash"></i></a>
+
+                    <a href="index.php?id=<?php echo $dato["id"]?>" class="float-right"><i class="fa-regular fa-pen-to-square" ></i></a>
                 </div>
 
                 <?php endforeach?>
@@ -86,19 +90,20 @@ if ($_GET){
             <?php if(!$_GET): ?> <!--#Detecta si no hay un elemento get y MOSTRARA ESTO, SI HAY METODO GET NO LO MOSTRARA-->
                 <h2>Agregar elementos</h2>
                 <form method="POST">
-                    <input type="text" class="form-control" name="Color">
-                    <input type="text" class="form-control mt-3" name="Descripcion">
+                    <input type="text" class="form-control" name="color">
+                    <input type="text" class="form-control mt-3" name="descripcion">
                     <button class="btn btn-primary mt-3">Agregar</button>
                 </form>
             <?php endif?>
 
                 <?php if($_GET): ?> <!--#Detecta si hay un elemento get y MOSTRARA ESTO, SI  no HAY  METODO GET NO LO MOSTRARA-->
-                <h2>Editar elementos</h2>
-                <form method="GET" action="editar.php">
-                    <input type="text" class="form-control" name="Color">
-                    <input type="text" class="form-control mt-3" name="Descripcion">
-                    <button class="btn btn-primary mt-3">Agregar</button>
-                </form>
+                    <h2>Editar elementos</h2>
+                    <form method="GET" action="editar.php">
+                        <input type="text" class="form-control" name="color" value="<?php echo $resultado_unico["color"] ?>">
+                        <input type="text" class="form-control mt-3" name="descripcion" value="<?php echo $resultado_unico["descripcion"] ?>">
+                        <input type="hidden" name="id" value="<?php echo $resultado_unico["id"] ?>">
+                        <button class="btn btn-primary mt-3">Agregar</button>
+                    </form>
                 
                 <?php endif?>
             </div>
