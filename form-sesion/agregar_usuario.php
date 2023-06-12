@@ -1,5 +1,9 @@
 <?php
 
+ //Conectamos a la base de datos
+ include_once "../yt_color_practice/conexion.php";
+
+
 //Ciframos la contraseña
 //echo password_hash("Carlos69", PASSWORD_DEFAULT)."\n";
 
@@ -9,6 +13,23 @@ $usuario_nuevo = $_POST['nombre_usuario'];
 $contrasena = $_POST['contrasena'];
 $contrasena2 = $_POST['contrasena2'];
 
+//Verificamos que el nombre de usuario no se repita
+$sql = "SELECT * FROM usuarios WHERE nombre = ?";
+//Preparamos la base de datos
+$sentencia = $pdo->prepare($sql);
+//Ejecutamos
+$sentencia->execute(array($usuario_nuevo));
+$resultado = $sentencia->fetch();
+
+//Comprobamos que se ejecute correctamente
+var_dump($resultado);
+
+//Hacemos la comprobacion del usuario este repetido o no
+if($resultado){
+    //Se detiene si existe un usuario, podemos redireccionar a otro lado
+    echo "Existe este usuario";
+    die();
+} //Sino existe sigue con el codigo
 
 //guardamos en la variable contrasena, la contrasena cifrada
 $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
@@ -19,8 +40,6 @@ $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 if (password_verify($contrasena2, $contrasena)) {
     echo 'La contraseña es válida!';
 
-    //Conectamos a la base de datos
-    include_once "../yt_color_practice/conexion.php";
 
     //Guardamos en la base de datos
     $sql_agregar = "INSERT INTO usuarios (nombre, contrasena) values (?,?)";
