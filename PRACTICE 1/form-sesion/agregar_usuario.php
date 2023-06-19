@@ -13,7 +13,7 @@ $usuario_nuevo = $_POST['nombre_usuario'];
 $contrasena = $_POST['contrasena'];
 $contrasena2 = $_POST['contrasena2'];
 
-//Verificamos que el nombre de usuario no se repita
+//Verificamso que el usuario existe
 $sql = "SELECT * FROM usuarios WHERE nombre = ?";
 //Preparamos la base de datos
 $sentencia = $pdo->prepare($sql);

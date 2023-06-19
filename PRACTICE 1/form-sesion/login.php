@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once "../yt_color_practice/conexion.php";
 
@@ -30,6 +31,19 @@ if (!$resultado) {
     //Matamos el codigo
     echo "NO EXISTE EL USUARIO";
     die();
+} 
+
+//Verificamos que la cotrasena sea la correcta
+                                                 //contra del usuario, contra de la base de datos
+if (password_verify($contrasena_login , $resultado["contrasena"])){
+ //Contrasenas son iguales
+    $_SESSION["admin"] = $usuario_login;
+    header("Location; restringido.php");
+} else{
+    echo "Las contrasenas no son iguales";
+    die();
 }
 
 echo "Usuario verificado";
+
+
