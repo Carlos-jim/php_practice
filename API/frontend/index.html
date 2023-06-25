@@ -10,11 +10,10 @@
     
 
     <script>
-        fetch("http://localhost/API/backend/datos.php").then(datos=>datos.json())
+        fetch("http://localhost/php_mysql_pratice/API/backend/euro")
+        .then(datos=>datos.json())
         .then(datos=>{
-            document.getElementById("datos").innerHTML = `
-            Dolar:  ${datos.dolar} - Euro: ${datos.euro}
-            `
+            console.log(datos);
         })
     </script>
 </body>
